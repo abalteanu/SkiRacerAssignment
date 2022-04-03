@@ -111,16 +111,15 @@ public class Ski {
 			// assigning specific types to the data items in data, and storing them in stegments array
 			String nodeType = data[i];
 			
-			if(nodeType.contains("jump")) {
+			if(nodeType == null) {
+				segments[i] = new SkiSegment(String.valueOf(i),data[i]);
+			}
+			else if(nodeType.contains("jump")) {
 				segments[i] = new JumpSegment(String.valueOf(i),data[i]);
 			} else if(nodeType.contains("slalom")) {
 				segments[i] = new SlalomSegment(String.valueOf(i),data[i]);
 			} else if(nodeType.equals("")) {
 				segments[i] = new SkiSegment(String.valueOf(i),data[i]);
-			} else {
-				// null case
-				segments[i] = new SkiSegment(String.valueOf(i),data[i]);
-
 			}
 		}
 		
@@ -148,51 +147,53 @@ public class Ski {
 	 */
 	public void skiNextSegment (BinaryTreeNode<SkiSegment> node, ArrayUnorderedList<SkiSegment> sequence) {
 		
+		if(node == null) return;
+		
+		// 0 path: base case is when the node you are on is null, in which case you are done
+		
+		sequence.addToRear(node.getData()); 	// tracking path by adding the node's data to end of sequence
 
-		while(node.getData() != null) {	// 0 path: base case is when the node you are on is null, in which case you are done
-			
-			sequence.addToRear(node.getData()); 	// tracking path by adding the node's data to end of sequence
 
-			// getting the two next nodes
-			BinaryTreeNode<SkiSegment> left = node.getLeft();
-			BinaryTreeNode<SkiSegment> right = node.getRight();
-			BinaryTreeNode<SkiSegment> next = right;	// next will be chosen by the function later on, but right by default 
+		// getting the two next nodes
+		BinaryTreeNode<SkiSegment> left = node.getLeft();
+		BinaryTreeNode<SkiSegment> right = node.getRight();
+		BinaryTreeNode<SkiSegment> next = right;	// next will be chosen by the function later on, but right by default 
+		
+		/// Deciding next path
+		
+		// 1 path option: if either left or right is null, then choose the node that is not null. 
+		if(left == null) {
+			next = right;	// check case where next is null.. it should be fine because if next node is null it'll catch that in the next iteration
+		} else if (right == null) {
+			next = left;
+		} else {
+			// 2 path option: if both L and R are not null
 			
-			/// Deciding next path
-			
-			// 1 path option: if either left or right is null, then choose the node that is not null. 
-			if(left == null) {
-				next = right;	// check case where next is null.. it should be fine because if next node is null it'll catch that in the next iteration
-			} else if (right == null) {
-				next = left;
-			} else {
-				// 2 path option: if both L and R are not null
+			if(left.getData() instanceof JumpSegment) {
+				/// jumps
+				// if left is a jump
+				next = checkBothJumps(right, left, next); // checks if right is a jump as well and picks between l and r
 				
-				if(left.getData() instanceof JumpSegment) {
-					/// jumps
-					// if left is a jump
-					next = checkBothJumps(right, left, next); // checks if right is a jump as well and picks between l and r
-					
-				} else if (right.getData() instanceof JumpSegment) {
-					// if left is not a jump and right is a jump
-					next = right;	// choose right
-					
-				} else if (left.getData() instanceof SlalomSegment) {
-					/// no jumps, but segments
-					// if left is a slalom
-					next = checkBothSlaloms(right, left, next); // checks if right is a slalom as well and picks between l and r
-					
-				} else if (right.getData() instanceof SlalomSegment) {
-					// if left is not a slalom and right is a slalom
-					// find if slalom is leeway, then choose leeway, if not, choose reg
-					next = chooseOneSlalom(right, left, next);
-				} 
+			} else if (right.getData() instanceof JumpSegment) {
+				// if left is not a jump and right is a jump
+				next = right;	// choose right
 				
-				// if both are regular, default value is already set to right
-			}
+			} else if (left.getData() instanceof SlalomSegment) {
+				/// no jumps, but segments
+				// if left is a slalom
+				next = checkBothSlaloms(right, left, next); // checks if right is a slalom as well and picks between l and r
+				
+			} else if (right.getData() instanceof SlalomSegment) {
+				// if left is not a slalom and right is a slalom
+				// find if slalom is leeway, then choose leeway, if not, choose reg
+				next = chooseOneSlalom(right, left, next);
+			} 
 			
-			skiNextSegment(next, sequence);	
+			// if both are regular, default value is already set to right
 		}
+		
+		skiNextSegment(next, sequence);	
+		
 		
 		
 		
