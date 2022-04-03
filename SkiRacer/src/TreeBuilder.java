@@ -67,12 +67,6 @@ public class TreeBuilder<T> {
 		return tree;
 		
 	}
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
-	}
 
 }
