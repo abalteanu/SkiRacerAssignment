@@ -28,8 +28,8 @@ public class Ski {
 			// if both left and right are jump segments
 			int rHeight, lHeight;
 			// cast to jumpSegment so compiler knows its JumpSegment
-			rHeight = ((JumpSegment)l.getData()).getHeight();
-			lHeight = ((JumpSegment)r.getData()).getHeight();
+			rHeight = ((JumpSegment)r.getData()).getHeight();
+			lHeight = ((JumpSegment)l.getData()).getHeight();
 			
 			if(rHeight >= lHeight) {
 				// if the right jump is greater than or equal to the left jump, choose right
@@ -63,8 +63,7 @@ public class Ski {
 
 		if(r.getData() instanceof SlalomSegment) {
 			// if both left and right are jump segments
-			String rdir;
-			rdir = ((SlalomSegment)r.getData()).getDirection();
+			String rdir = ((SlalomSegment)r.getData()).getDirection();
 			
 			if(rdir.equals("L")) {
 				// if the right slalom is leeway, choose right
@@ -112,7 +111,7 @@ public class Ski {
 			String nodeType = data[i];
 			
 			if(nodeType == null) {
-				segments[i] = new SkiSegment(String.valueOf(i),data[i]);
+				segments[i] = null;
 			}
 			else if(nodeType.contains("jump")) {
 				segments[i] = new JumpSegment(String.valueOf(i),data[i]);
@@ -145,7 +144,7 @@ public class Ski {
 	 * Base case is when a node is null
 	 * Determines next node to be accessed
 	 */
-	public void skiNextSegment (BinaryTreeNode<SkiSegment> node, ArrayUnorderedList<SkiSegment> sequence) {
+	public void skiNextSegment (BinaryTreeNode<SkiSegment> node, ArrayUnorderedList<SkiSegment> sequence, String indent) {
 		
 		if(node == null) return;
 		
@@ -190,9 +189,16 @@ public class Ski {
 			} 
 			
 			// if both are regular, default value is already set to right
-		}
+		} 
 		
-		skiNextSegment(next, sequence);	
+		String test = "";
+		if(next == right) {
+			test = " right";
+		} else if (next == left) {
+			test = " left";
+		}
+		System.out.println(indent + node.toString() + test);
+		skiNextSegment(next, sequence, indent + " ");	
 		
 		
 		
