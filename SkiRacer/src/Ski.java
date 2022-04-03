@@ -144,7 +144,7 @@ public class Ski {
 	 * Base case is when a node is null
 	 * Determines next node to be accessed
 	 */
-	public void skiNextSegment (BinaryTreeNode<SkiSegment> node, ArrayUnorderedList<SkiSegment> sequence, String indent) {
+	public void skiNextSegment (BinaryTreeNode<SkiSegment> node, ArrayUnorderedList<SkiSegment> sequence) {
 		
 		if(node == null) return;
 		
@@ -191,17 +191,7 @@ public class Ski {
 			// if both are regular, default value is already set to right
 		} 
 		
-		String test = "";
-		if(next == right) {
-			test = " right";
-		} else if (next == left) {
-			test = " left";
-		}
-		System.out.println(indent + node.toString() + test);
-		skiNextSegment(next, sequence, indent + " ");	
-		
-		
-		
+		skiNextSegment(next, sequence);	
 		
 	}
 }

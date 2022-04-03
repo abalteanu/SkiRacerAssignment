@@ -18,7 +18,7 @@ public class TestSki {
 		hill = new String[] {"", "slalom-L", "jump-30"};
 		ski = new Ski(hill);
 		path = new ArrayUnorderedList<SkiSegment>();
-		ski.skiNextSegment(ski.getRoot(), path, "");
+		ski.skiNextSegment(ski.getRoot(), path);
 		if (comparePaths(path.iterator(), 1)) {
 			System.out.println("Test 1 Passed");
 		} else {
@@ -32,7 +32,7 @@ public class TestSki {
 		hill = new String[] {"", "jump-30", "slalom-W", "slalom-L", "slalom-W", "jump-20", "jump-40", "", null, "slalom-L", "jump-20", null, null, "slalom-L", "slalom-W"};
 		ski = new Ski(hill);
 		path = new ArrayUnorderedList<SkiSegment>();
-		ski.skiNextSegment(ski.getRoot(), path, "");
+		ski.skiNextSegment(ski.getRoot(), path);
 		if (comparePaths(path.iterator(), 2)) {
 			System.out.println("Test 2 Passed");
 		} else {
@@ -46,7 +46,7 @@ public class TestSki {
 		hill = new String[] {"", "jump-30", "jump-50", "slalom-L", "jump-20", "slalom-W", "", "", null, "slalom-L", "slalom-W", "jump-30", "", "", null};
 		ski = new Ski(hill);
 		path = new ArrayUnorderedList<SkiSegment>();
-		ski.skiNextSegment(ski.getRoot(), path, "");
+		ski.skiNextSegment(ski.getRoot(), path);
 		if (comparePaths(path.iterator(), 3)) {
 			System.out.println("Test 3 Passed");
 		} else {
@@ -60,7 +60,7 @@ public class TestSki {
 		hill = new String[] {"", "", "", "jump-40", "jump-40", "jump-40", "jump-40", "slalom-W", "", "slalom-W", "", "slalom-W", "", "slalom-W", ""};
 		ski = new Ski(hill);
 		path = new ArrayUnorderedList<SkiSegment>();
-		ski.skiNextSegment(ski.getRoot(), path, "");
+		ski.skiNextSegment(ski.getRoot(), path);
 		if (comparePaths(path.iterator(), 4)) {
 			System.out.println("Test 4 Passed");
 		} else {
@@ -74,7 +74,7 @@ public class TestSki {
 		hill = new String[] {"", "", "slalom-W", "slalom-L", "jump-30", "jump-50", "jump-20", "slalom-W", "", null, "slalom-W", "jump-30", "", null, null, "jump-30", "", null, null, "jump-30", "jump-20", null, null, "", "slalom-W"};
 		ski = new Ski(hill);
 		path = new ArrayUnorderedList<SkiSegment>();
-		ski.skiNextSegment(ski.getRoot(), path, "");
+		ski.skiNextSegment(ski.getRoot(), path);
 		if (comparePaths(path.iterator(), 5)) {
 			System.out.println("Test 5 Passed");
 		} else {
@@ -107,7 +107,7 @@ public class TestSki {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return false;
 		}
-		return true;
+		return s == correct.length;
 	}
 	
 }
